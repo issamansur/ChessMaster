@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "@gravity-ui/uikit": "^6.15.0"
+  },
+  "dependencies": {
+    "react-chessboard": "^4.6.0"
+  }
+}
