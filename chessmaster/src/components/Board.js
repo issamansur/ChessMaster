@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
@@ -6,7 +6,12 @@ import { Chessboard } from "react-chessboard";
 
 const Board = (props) => {
     const { fen, onMove } = props;
-    const [game, setGame] = useState(new Chess(fen));
+    const [game, setGame] = useState(null);
+
+    useEffect(() => {
+        console.log(fen);
+        setGame(new Chess(fen));
+    }, [fen]);
 
     function boardMove(from, to) {
         const move = {
@@ -42,10 +47,9 @@ const Board = (props) => {
 
     return (
         <Chessboard 
-            position={game.fen()} 
+            position={game?.fen()} 
             onPieceDrop={boardMove}
-        >
-        </Chessboard>
+        />
     )
 };
 
