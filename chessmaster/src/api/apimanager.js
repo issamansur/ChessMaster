@@ -77,6 +77,7 @@ class ApiManager {
 
     async getGame(gameid) {
         const response = await fetch(this.ENDPOINTS.GET_GAME(gameid));
+
         return await response.json();
     }
 
@@ -85,5 +86,7 @@ class ApiManager {
         return await response.json();
     }
 }
+
+export default new ApiManager();
 
 // thanks to https://dhruvpvx.medium.com/the-most-effective-method-for-managing-api-calls-in-your-react-or-react-native-project-fe4293a7905f
