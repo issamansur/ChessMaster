@@ -39,7 +39,7 @@
     ]
   },
   "devDependencies": {
-    "@gravity-ui/uikit": "^6.15.0",
+    "@gravity-ui/uikit": "^6.18.0",
     "react-router-dom": "^6.23.1"
   }
 }
