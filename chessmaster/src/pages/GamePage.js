@@ -13,24 +13,33 @@ const GamePage = (props) => {
 
     const [game, setGame] = useState(null);
 
-    const {
-        player1,
-        player2,
-    } = { player1: "Player1", player2: "Player2"};
-
     async function moveHandler(move) {
         await apimanager.moveGame(gameid, move);
     }
 
     useEffect(() => {
-        async function fetchData() {
-            const _game = await apimanager.getGame(gameid);
-            await new Promise(resolve => setTimeout(resolve, 500));
+        async function getGame() {
+            let _game = await apimanager.getGame(gameid);
+            if (_game === null) {
+                return;
+            }
+            const _user1 = await apimanager.getUser(_game.blackPlayerId);
+            const _user2 = await apimanager.getUser(_game.whitePlayerId);
+            _game = {
+                ..._game,
+                blackPlayerName: _user1.username,
+                whitePlayerName: _user2.username,
+            };
+
             setGame(_game);
         }
 
-        fetchData();
+        getGame();
     }, [gameid]);
+
+    if (game?.fen === undefined) {
+        return null;
+    }
 
     return (
         <div className="game-page">
