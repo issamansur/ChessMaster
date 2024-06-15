@@ -1,18 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {ThemeProvider} from '@gravity-ui/uikit';
 
 import '@gravity-ui/uikit/styles/fonts.css';
 import '@gravity-ui/uikit/styles/styles.css';
+import {ThemeProvider} from '@gravity-ui/uikit';
+
+import App from './App';
+import { UserProvider } from './contexts/UserContext';
+
+import './index.css';
+
+import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ThemeProvider theme="light">
     <React.StrictMode>
-      <App />
+      <UserProvider>
+        <App />
+      </UserProvider>
     </React.StrictMode>
   </ThemeProvider>
 );
