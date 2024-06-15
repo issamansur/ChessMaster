@@ -1,17 +1,25 @@
-import { UserLabel } from "@gravity-ui/uikit";
+import { useNavigate } from "react-router-dom";
+import { Avatar, UserLabel } from "@gravity-ui/uikit";
 
 const PlayerBadge = (props) => {
-    const { username, position, onClick } = props;
+    let navigate = useNavigate();
+
+    const { username, position } = props;
 
     const positionToFlex = position === "right" ? "flex-end" : "flex-start";
 
+    function onClickHandler() {
+        navigate(`/users/${username}`);
+    }
+
     return (
-        <div style={{display: "flex", justifyContent: positionToFlex}}>
+        <div style={{display: "flex", justifyContent: positionToFlex }}>
             <UserLabel
-                view="outlined" 
+                style={{height: 42 }}
+                view="outlined"
                 type="person"
-                avatar={undefined}
-                onClick={onClick}
+                avatar={<Avatar text={username} size="l" />}
+                onClick={onClickHandler}
             >
                 {username}
             </UserLabel>

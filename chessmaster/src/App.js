@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Header from "./components/Header";
 import GamePage from "./pages/GamePage";
+import UserPage from "./pages/UserPage";
 
 import './App.css';
 
@@ -16,7 +17,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/games/:gameid" element={<GamePage />} />
-          
+          <Route path="/users/:username" element={<UserPage />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </BrowserRouter>
@@ -24,5 +25,4 @@ function App() {
   );
 }
 //<Route path="/" element={<MainPage />} />
-//<Route path="/users/:userid" element={<UserPage />} />
 export default App;

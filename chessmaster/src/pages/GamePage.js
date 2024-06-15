@@ -35,13 +35,13 @@ const GamePage = (props) => {
     return (
         <div className="game-page">
             <div className="game-container">
-                <PlayerBadge username={player1} position="left" />
+                <PlayerBadge username={game?.blackPlayerName} position="left" />
                 
                 <div className="board-container">
                     <Board fen={game?.fen} onMove={async (move) => moveHandler(move)} />
                 </div>
                 
-                <PlayerBadge username={player2} position="right" />
+                <PlayerBadge username={game?.whitePlayerName} position="right" />
             </div>
         </div>
     );
