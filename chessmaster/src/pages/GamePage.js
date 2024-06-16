@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import Board from "../components/Board";
-import PlayerBadge from "../components/PlayerBadge";
+import UserBadge from "../components/UserBadge";
 
 import apimanager from "../api/apimanager";
 
 import "./GamePage.css";
 
 const GamePage = (props) => {
+    const navigate = useNavigate();
+
     const { gameid } = useParams();
 
     const [game, setGame] = useState(null);
 
     async function moveHandler(move) {
         await apimanager.moveGame(gameid, move);
+    }
+
+    function playerClickHandler(username) {
+        navigate(`/users/${username}`);
     }
 
     useEffect(() => {
@@ -44,13 +50,21 @@ const GamePage = (props) => {
     return (
         <div className="game-page">
             <div className="game-container">
-                <PlayerBadge username={game?.blackPlayerName} position="left" />
-                
+                <UserBadge 
+                    position="left"
+                    username={game?.blackPlayerName}
+                    avatar={true}
+                    onClick={playerClickHandler}
+                />
                 <div className="board-container">
                     <Board fen={game?.fen} onMove={async (move) => moveHandler(move)} />
                 </div>
-                
-                <PlayerBadge username={game?.whitePlayerName} position="right" />
+                <UserBadge 
+                    position="right"
+                    username={game?.whitePlayerName}
+                    avatar={true}
+                    onClick={playerClickHandler} 
+                />
             </div>
         </div>
     );
