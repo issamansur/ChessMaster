@@ -12,9 +12,8 @@ function App() {
 
   return (
     <div className="App">
-      <Header onSearch={(text) => console.log(text)} />
-      
       <BrowserRouter>
+        <Header onSearch={(text) => console.log(text)} />
         <Routes>
           <Route path="/games/:gameid" element={<GamePage />} />
           <Route path="/users/:username" element={<UserPage />} />
