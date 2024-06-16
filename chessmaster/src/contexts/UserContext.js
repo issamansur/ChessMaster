@@ -5,11 +5,23 @@ const UserContext = createContext();
 
 // Компонент-обертка, который предоставляет токен
 function UserProvider({ children }) {
+	function parseData(data) {
+		try {
+			const _data = JSON.parse(data);
+			
+			if (_data.token === undefined ||
+				_data.id === undefined ||
+				_data.username === undefined) {
+				return { token: "", id: "", username: "" };
+			}
+		} catch (e) {
+			return { token: "", id: "", username: "" };
+		}
+	}
+
 	const userData = localStorage.getItem("user");
 
-	const { token, id, username } = userData
-		? JSON.parse(userData)
-		: { token: "", id: "", username: "" };
+	const { token, id, username } = parseData(userData);
 
 	const [user, setUser] = useState({
 		token: token,
@@ -18,6 +30,11 @@ function UserProvider({ children }) {
 	});
 
 	const setUserAndStore = (newUserData) => {
+		if (newUserData === null) {
+			localStorage.removeItem("user");
+			setUser({ token: "", id: "", username: "" });
+			return;
+		}
 		localStorage.setItem("user", JSON.stringify(newUserData));
 		setUser(newUserData);
 	};

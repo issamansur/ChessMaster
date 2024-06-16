@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Button, Text, Avatar, TextInput, User, Modal, Icon } from "@gravity-ui/uikit";
+import { Button, Text, Avatar, TextInput, User, Modal, Icon, DropdownMenu } from "@gravity-ui/uikit";
 
 import { useUser } from "../contexts/UserContext";
 
-import { Magnifier } from "@gravity-ui/icons";
+import { 
+    Magnifier as SearchIcon,
+    ArrowRightFromSquare as LogoutIcon,
+    Person as UserIcon,
+    Gear as SettingsIcon,
+} from "@gravity-ui/icons";
 
 import './Header.css';
 import AuthForm from "./AuthForm";
@@ -14,7 +19,7 @@ import UserBadge from "./UserBadge";
 const Header = (props) => {
     const navigate = useNavigate();
     const { onSearch } = props;
-    const [user, _] = useUser();
+    const [user, setUserAndStore] = useUser();
     const [isAuthFormOpen, setIsAuthFormOpen] = useState(false);
 
     function onKeyDownHandler(event) {
@@ -31,6 +36,10 @@ const Header = (props) => {
         setIsAuthFormOpen(true);
     }
 
+    function onLogoutClick() {
+        setUserAndStore(null);
+    }
+
     return (
         <header>
             <div className="header">
@@ -42,7 +51,7 @@ const Header = (props) => {
                     <TextInput
                         startContent={	
                             <Button view="clear" disabled={true} size="s">
-                                <Icon data={Magnifier} size={10} />
+                                <Icon data={SearchIcon} size={10} />
                             </Button>
                         }
                         style={{ marginRight: "10px" }}
@@ -51,9 +60,38 @@ const Header = (props) => {
                     />
                     */}
                     { user.token ? (
-                        <UserBadge
-                            username={user.username}
-                            position="right"
+                        <DropdownMenu
+                            size="l"
+                            renderSwitcher={(props) => (
+                                <div {...props} style={{cursor: 'pointer'}}>   
+                                    <UserBadge
+                                        username={user.username}
+                                        position="right"
+                                    />
+                                </div>
+                            )}
+                            items={[
+                                [
+                                    {
+                                        iconStart: <Icon data={UserIcon} size={16} />,
+                                        text: 'Go to profile',
+                                        action: () => navigate(`/users/${user.username}`),
+                                    },
+                                    {
+                                        iconStart: <Icon data={SettingsIcon} size={16} />,
+                                        text: 'Settings',
+                                        action: () => navigate('/settings'),
+                                    }
+                                ],
+                                [
+                                    {
+                                        iconStart: <Icon data={LogoutIcon} size={16} />,
+                                        text: 'Logout',
+                                        action: () => onLogoutClick(),
+                                        theme: 'danger'
+                                    },
+                                ],
+                            ]}
                         />
                         
                     ) : (
@@ -72,7 +110,7 @@ const Header = (props) => {
                 open={isAuthFormOpen}
                 onClose={() => setIsAuthFormOpen(false)}
             >
-                <AuthForm />
+                <AuthForm onLogin={() => setIsAuthFormOpen(false)} />
             </Modal>
         </header>
     );
