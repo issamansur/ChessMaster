@@ -3,9 +3,9 @@ const BASE_URL = 'http://localhost:5273/api';
 
 const ENDPOINTS = {
     REGISTER: () =>
-        `${BASE_URL}/register`,
+        `${BASE_URL}/accounts/register`,
     LOGIN: () =>
-        `${BASE_URL}/login`,
+        `${BASE_URL}/accounts/login`,
 
     GET_USER: (userid) =>
         `${BASE_URL}/users/${userid}`,
