@@ -4,19 +4,29 @@ import { useParams, useNavigate } from "react-router-dom";
 import Board from "../components/Board";
 import UserBadge from "../components/UserBadge";
 
-import apimanager from "../api/apimanager";
+import apiManager from "../api/ApiManager";
 
 import "./GamePage.css";
+import { useUser } from "../contexts/UserContext";
 
 const GamePage = (props) => {
     const navigate = useNavigate();
+
+    const [user, _] = useUser();
 
     const { gameid } = useParams();
 
     const [game, setGame] = useState(null);
 
     async function moveHandler(move) {
-        await apimanager.moveGame(gameid, move);
+        if (user?.id !== game.blackPlayerId && user?.id !== game.whitePlayerId) {
+            return;
+        }
+
+        const _game = await apiManager.moveGame(gameid, move);
+        if (_game.fen != game.fen) {
+            setGame(_game);
+        }
     }
 
     function playerClickHandler(username) {
@@ -25,12 +35,12 @@ const GamePage = (props) => {
 
     useEffect(() => {
         async function getGame() {
-            let _game = await apimanager.getGame(gameid);
+            let _game = await apiManager.getGame(gameid);
             if (_game === null) {
                 return;
             }
-            const _user1 = await apimanager.getUser(_game.blackPlayerId);
-            const _user2 = await apimanager.getUser(_game.whitePlayerId);
+            const _user1 = await apiManager.getUser(_game.blackPlayerId);
+            const _user2 = await apiManager.getUser(_game.whitePlayerId);
             _game = {
                 ..._game,
                 blackPlayerName: _user1.username,
