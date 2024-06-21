@@ -7,16 +7,18 @@ const UserContext = createContext();
 function UserProvider({ children }) {
 	function parseData(data) {
 		try {
-			const _data = JSON.parse(data);
+			const parsedData = JSON.parse(data);
+			const { token, id, username } = parsedData;
 			
-			if (_data.token === undefined ||
-				_data.id === undefined ||
-				_data.username === undefined) {
-				return { token: "", id: "", username: "" };
+			// Check if any of the required fields are missing or falsy
+			if (!token || !id || !username) {
+			  throw new Error("Missing required fields");
 			}
-		} catch (e) {
+		
+			return { token, id, username };
+		  } catch (e) {
 			return { token: "", id: "", username: "" };
-		}
+		  }
 	}
 
 	const userData = localStorage.getItem("user");
