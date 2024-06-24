@@ -1,0 +1,22 @@
+.main-page {
+    padding: 20px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.actions-container {
+    display: flex;
+    flex-grow: 1;
+    height: fit-content;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 15px;
+}
