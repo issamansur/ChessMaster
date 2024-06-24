@@ -129,6 +129,7 @@ const GamePage = (props) => {
                         game.blackPlayerId === user?.id ? 
                         players.whitePlayerName : players.blackPlayerName 
                     }
+                    isActive={!isWhiteMove}
                     avatar={true}
                     onClick={playerClickHandler}
                 />
@@ -146,6 +147,7 @@ const GamePage = (props) => {
                         game.blackPlayerId === user?.id ? 
                         players.blackPlayerName : players.whitePlayerName 
                     }
+                    isActive={isWhiteMove}
                     avatar={true}
                     onClick={playerClickHandler} 
                 />
