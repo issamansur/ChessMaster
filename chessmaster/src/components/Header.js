@@ -43,7 +43,11 @@ const Header = (props) => {
     return (
         <header>
             <div className="header">
-                <Text variant="display-1" onClick={onLogoClick}>
+                <Text 
+                    variant="display-1" 
+                    style={{ cursor: "pointer" }}    
+                    onClick={onLogoClick}
+                >
                     ChessMaster
                 </Text>
                 <div className="right-panel">
