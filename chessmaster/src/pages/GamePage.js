@@ -8,7 +8,7 @@ import ApiManager from "../api/ApiManager";
 
 import "./GamePage.css";
 import { useUser } from "../contexts/UserContext";
-import { TextInput } from "@gravity-ui/uikit";
+import { Alert, TextInput } from "@gravity-ui/uikit";
 
 const GamePage = (props) => {
     const navigate = useNavigate();
@@ -117,8 +117,66 @@ const GamePage = (props) => {
         );
     }, []);
 
-    if (game?.fen === undefined) {
-        return null;
+    if (game?.fen === undefined || game?.gameState === 1) {
+        return (
+            <div className="game-page">
+                <div style={
+                    { 
+                        position: "absolute",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        top: 57,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        zIndex: 10,
+                    }
+                }>
+                    <Alert
+                        theme="danger"
+                        view="filled"
+                        title="Error"
+                        style={{ 
+                            height: "80px",
+                            backgroundColor: "white",
+                        }}
+                        message="Game not found"
+                    />
+                </div>
+                <div className="game-container">
+                    <UserBadge
+                        position="left"                    
+                        username="Black Side Player"
+                        isActive={false}
+                        avatar={false}
+                    />
+                    <div className="board-container">
+                        <Board 
+                            fen="start" 
+                            boardOrientation="white"
+                            arePiecesDraggable={false}
+                        />
+                    </div>
+                    <UserBadge 
+                        position="right"
+                        username="White Side Player"
+                        isActive={false}
+                        avatar={false}
+                    />
+                </div>
+                <div className="game-chat">
+                    <div className="chat-messages">
+                    </div>
+                    <TextInput
+                        size="l"
+                        placeholder="Message"
+                        disabled={true}
+                    />
+                </div>
+            </div>
+        );
     }
 
     return (
