@@ -59,6 +59,7 @@ class ApiManager {
         const response = await fetch(this.ENDPOINTS.CREATE_GAME(), {
             method: 'POST',
             headers: this.HEADERS,
+            body: JSON.stringify({})
         });
         return await response.json();
     }
@@ -87,8 +88,8 @@ class ApiManager {
         return await response.json();
     }
 
-    async searchGames() {
-        const response = await fetch(this.ENDPOINTS.SEARCH_GAMES());
+    async searchFreeGames() {
+        const response = await fetch(this.ENDPOINTS.SEARCH_FREE_GAMES());
         return await response.json();
     }
 }

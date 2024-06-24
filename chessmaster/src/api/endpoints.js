@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5273/api';
+const BASE_URL = 'https://animated-pancake-4rwjw457gr73j5vp-5273.app.github.dev/api';
 
 
 const ENDPOINTS = {
@@ -22,8 +22,8 @@ const ENDPOINTS = {
         `${BASE_URL}/games/move`,
     GET_GAME: (gameid) => 
         `${BASE_URL}/games/${gameid}`,
-    SEARCH_GAMES: () => 
-        `${BASE_URL}/games`,
+    SEARCH_FREE_GAMES: () => 
+        `${BASE_URL}/games?state=1&page=1&pageSize=1`,
 };
 
 export default ENDPOINTS;
