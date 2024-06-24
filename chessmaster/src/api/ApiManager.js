@@ -1,8 +1,15 @@
+import { useUser } from '../contexts/UserContext';
 import ENDPOINTS from './endpoints';
 
+
 class ApiManager {
-    constructor() {
+    constructor(token) {
         this.ENDPOINTS = ENDPOINTS;
+        
+        this.HEADERS = {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        };
     }
 
     async register(login, password) {
@@ -49,16 +56,17 @@ class ApiManager {
     }
 
     async createGame() {
-        const response = await fetch(this.ENDPOINTS.CREATE_GAME());
+        const response = await fetch(this.ENDPOINTS.CREATE_GAME(), {
+            method: 'POST',
+            headers: this.HEADERS,
+        });
         return await response.json();
     }
 
     async joinGame(gameid) {
         const response = await fetch(this.ENDPOINTS.JOIN_GAME(), {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: this.HEADERS,
             body: JSON.stringify({ gameid })
         });
         return await response.json();
@@ -67,9 +75,7 @@ class ApiManager {
     async moveGame(gameid, move) {
         const response = await fetch(this.ENDPOINTS.MOVE_GAME(), {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: this.HEADERS,
             body: JSON.stringify({ gameid, move })
         });
         return await response.json();
@@ -87,6 +93,6 @@ class ApiManager {
     }
 }
 
-export default new ApiManager();
+export default ApiManager;
 
 // thanks to https://dhruvpvx.medium.com/the-most-effective-method-for-managing-api-calls-in-your-react-or-react-native-project-fe4293a7905f

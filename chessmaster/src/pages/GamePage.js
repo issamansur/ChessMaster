@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Board from "../components/Board";
 import UserBadge from "../components/UserBadge";
 
-import apiManager from "../api/ApiManager";
+import ApiManager from "../api/ApiManager";
 
 import "./GamePage.css";
 import { useUser } from "../contexts/UserContext";
@@ -17,6 +17,7 @@ const GamePage = (props) => {
     const { gameid } = useParams();
 
     const [game, setGame] = useState(null);
+    const apiManager = () => new ApiManager(user.token);
 
     async function moveHandler(move) {
         if (user?.id !== game.blackPlayerId && user?.id !== game.whitePlayerId) {
