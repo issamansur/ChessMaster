@@ -8,6 +8,7 @@ import ApiManager from "../api/ApiManager";
 
 import "./GamePage.css";
 import { useUser } from "../contexts/UserContext";
+import { TextInput } from "@gravity-ui/uikit";
 
 const GamePage = (props) => {
     const navigate = useNavigate();
@@ -81,11 +82,11 @@ const GamePage = (props) => {
     useEffect(() => {
         async function getGame() {
             let _game = await apiManager().getGame(gameid);
-            
+
             if (!_game?.fen) {
                 return null;
             }
-            
+
             const _user1 = await apiManager().getUser(_game.whitePlayerId);
             const _user2 = await apiManager().getUser(_game.blackPlayerId);
     
@@ -94,7 +95,7 @@ const GamePage = (props) => {
                 blackPlayerName: _user2.username,
             });
             setGame(_game);
-        return _game;
+            return _game;
         }
 
         getGame().then(
@@ -123,8 +124,8 @@ const GamePage = (props) => {
     return (
         <div className="game-page">
             <div className="game-container">
-                <UserBadge 
-                    position="left"
+                <UserBadge
+                    position="left"                    
                     username={
                         game.blackPlayerId === user?.id ? 
                         players.whitePlayerName : players.blackPlayerName 
@@ -150,6 +151,14 @@ const GamePage = (props) => {
                     isActive={isWhiteMove}
                     avatar={true}
                     onClick={playerClickHandler} 
+                />
+            </div>
+            <div className="game-chat">
+                <div className="chat-messages">
+                </div>
+                <TextInput
+                    size="l"
+                    placeholder="Message"
                 />
             </div>
         </div>

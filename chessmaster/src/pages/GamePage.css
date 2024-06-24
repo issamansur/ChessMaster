@@ -1,17 +1,20 @@
 .game-page {
     padding: 20px;
 
-    /*
     display: flex;
-    */
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
+/* game container */
 .game-container {
     /*
     display: flex;
     flex-grow: 1;
     flex-direction: column;
     */
+    flex-grow: 1;
 
     padding: 10px;
     background-color: #f5f5f5;
@@ -37,4 +40,22 @@
     .game-container {
         max-width: 100%;
     }
+}
+
+/* game chat */
+.game-chat {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 200px;
+
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 15px;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    overflow-y: scroll;
+    margin-bottom: 10px;
 }
