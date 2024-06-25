@@ -44,7 +44,7 @@ const GamePage = (props) => {
                     clearInterval(intervalId);
                 }
             }
-        }, 100);
+        }, 1000);
 
         return () => clearInterval(intervalId);
     };
@@ -107,7 +107,7 @@ const GamePage = (props) => {
 
                 const _isWhiteMove = _game.fen.split(" ")[1] === "w";
                 if (
-                    (user?.id !== _game.blackPlayerId && user?.id !== _game.whitePlayerId) ||
+                    !isUserPlaying() ||
                     (_isWhiteMove && user.id === _game.blackPlayerId) ||
                     (!_isWhiteMove && user.id === _game.whitePlayerId)
                 ) {
@@ -121,17 +121,19 @@ const GamePage = (props) => {
         return null;
     }
 
+    const usernameTop = game.blackPlayerId === user?.id ? players.whitePlayerName : players.blackPlayerName;
+    const usernameBottom = game.blackPlayerId === user?.id ? players.blackPlayerName : players.whitePlayerName;
+
     return (
         <div className="game-page">
             <div className="game-container">
                 <UserBadge
                     position="left"                    
                     username={
-                        game.blackPlayerId === user?.id ? 
-                        players.whitePlayerName : players.blackPlayerName 
+                        usernameTop
                     }
                     isActive={
-                        game.blackPlayerId === user?.id ? isWhiteMove : !isWhiteMove
+                        (game.blackPlayerId === user?.id ? isWhiteMove : !isWhiteMove) && game.gameState !== 3
                     }
                     avatar={true}
                     onClick={playerClickHandler}
@@ -140,18 +142,17 @@ const GamePage = (props) => {
                     <Board 
                         fen={game.fen} 
                         boardOrientation={game.blackPlayerId === user?.id ? "black" : "white"} 
-                        arePiecesDraggable={game.whitePlayerId === user?.id || game.blackPlayerId === user?.id}
+                        arePiecesDraggable={isUserPlaying() && game.gameState !== 3}
                         onMove={async (move) => await moveHandler(move)} 
                     />
                 </div>
                 <UserBadge 
                     position="right"
                     username={
-                        game.blackPlayerId === user?.id ? 
-                        players.blackPlayerName : players.whitePlayerName 
+                        usernameBottom
                     }
                     isActive={
-                        game.blackPlayerId === user?.id ? !isWhiteMove : isWhiteMove
+                        (game.blackPlayerId === user?.id ? !isWhiteMove : isWhiteMove) && game.gameState !== 3
                     }
                     avatar={true}
                     onClick={playerClickHandler} 
